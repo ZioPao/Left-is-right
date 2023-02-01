@@ -1,6 +1,5 @@
 name=Left Is Right
 poster=generic.png
-require=
 description=Test
 id=LeftIsRight
 icon=icon.png

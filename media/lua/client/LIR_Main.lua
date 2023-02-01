@@ -2,6 +2,7 @@
 ----------- LEFT IS RIGHT -----------
 -------------------------------------
 
+-- Some stuff taken from the amazing Off Hand Attack mod from AbraxasDusk! Thanks!
 
 -- LIST OF STUFF TO IMPLEMENT
 -- TODO Switchable state (Left to Right, Right to Left)
@@ -44,6 +45,7 @@ end
 
 local function OnMouseDown(x, y)
     -- stop main attack and replaces it with my method
+    print("LIR: OnMouseDown")
     local player = getPlayer()
     local lir_data = player:getModData().LIR
 
@@ -63,6 +65,8 @@ end
 local function OnKeyboardInput(key)
     
     local player = getPlayer()
+    local lir_data = player:getModData().LIR
+
     -- check if 9 is pressed
     if key == 10 then
 
@@ -75,4 +79,5 @@ end
 
 Events.OnCreatePlayer.Add(InitLIR)
 Events.OnKeyStartPressed.Add(OnKeyboardInput)
+
 Events.OnMouseDown.Add(OnMouseDown)

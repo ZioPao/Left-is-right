@@ -7,10 +7,8 @@ function LIR_AttackWithOffHand(player, lir_data)
 
     -- Check if it is actully a weapon
     -- ....
+    ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon, 2, 10, nil))
     
-    if player:isAttacking() then
-        
-    end
 
 
 
