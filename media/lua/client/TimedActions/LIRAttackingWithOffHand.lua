@@ -132,6 +132,8 @@ function LIRAttackingWithOffHand:update()
             self.enemy_to_attack:addBlood(ZombRand(1,10))
             self.enemy_to_attack:playHurtSound()
             self.enemy_to_attack:splatBloodFloor()
+            self.enemy_to_attack:playSound(self.item:getZombieHitSound())
+
         end
     
 
@@ -151,7 +153,10 @@ function LIRAttackingWithOffHand:start()
     -- Set enemy and animations
     local is_enemy_on_the_floor = self:SearchEnemy()
     self:SetAttackAnimations(is_enemy_on_the_floor)
-    --self:SetWeaponSounds()
+	local weapon_sound = self.item:getSwingSound()
+    print(weapon_sound)
+    -- Play weapon sound
+    self.character:playSound(weapon_sound)      -- TODO why the fuck this does not work?
 
 
 
@@ -209,7 +214,6 @@ function LIRAttackingWithOffHand:new(character, item)
 
     --attackAction.hitSound = hitSound;
     
-    --weaponSound = item:getSwingSound();
 
     return attackAction
 

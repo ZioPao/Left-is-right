@@ -8,8 +8,10 @@
 -- TODO Switchable state (Left to Right, Right to Left)
 -- TODO Add a way to use some specific objects with the secondary hand
 -- TODO Implement multi hit
+-- TODO Add malus for 2 handed weapons 
+-- TODO Damage values are kinda fucked, not sure why
 
-local function LIR_AttackWithOffHand(player, lir_data)
+local function LIR_AttackWithOffHand(player)
 
     -- Check if off hand has a weapon
     local off_hand_weapon = player:getSecondaryHandItem()
@@ -32,8 +34,7 @@ local function OnMouseDown(x, y)
 
     if player and player:isAiming() then
         if lir_data.is_hand_switched then
-            -- our methods
-            LIR_AttackWithOffHand(player, lir_data)
+            LIR_AttackWithOffHand(player)
         else
             print("LIR: Normal attack")
         end
