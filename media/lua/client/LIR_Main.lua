@@ -7,22 +7,18 @@
 -- LIST OF STUFF TO IMPLEMENT
 -- TODO Switchable state (Left to Right, Right to Left)
 -- TODO Add a way to use some specific objects with the secondary hand
+-- TODO Implement multi hit
 
+local function LIR_AttackWithOffHand(player, lir_data)
 
+    -- Check if off hand has a weapon
+    local off_hand_weapon = player:getSecondaryHandItem()
 
+    if off_hand_weapon:IsWeapon() then
 
-local function InitLIR()
-    local player = getPlayer()
-    local mod_data = player:getModData()
-
-    mod_data.LIR = {
-        is_hand_switched = false,
-
-    }
+        ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon))
+    end
 end
-
-
-
 
 
 
@@ -53,7 +49,7 @@ local function OnKeyboardInput(key)
     local lir_data = player:getModData().LIR
 
     -- check if 9 is pressed
-    if key == 45 then
+    if key == 45 and lir_data.can_switch_hand then
 
         local new_value = not player:getModData().LIR.is_hand_switched
         player:getModData().LIR.is_hand_switched = new_value
@@ -63,7 +59,25 @@ local function OnKeyboardInput(key)
     
 end
 
-Events.OnCreatePlayer.Add(InitLIR)
-Events.OnKeyStartPressed.Add(OnKeyboardInput)
 
-Events.OnMouseDown.Add(OnMouseDown)
+local function InitLIR()
+    local player = getPlayer()
+    local mod_data = player:getModData()
+
+    mod_data.LIR = {
+        is_hand_switched = false,
+        can_switch_hand = true,
+
+    }
+
+    Events.OnKeyStartPressed.Add(OnKeyboardInput)
+    Events.OnMouseDown.Add(OnMouseDown)
+end
+
+
+
+
+
+
+
+Events.OnCreatePlayer.Add(InitLIR)
