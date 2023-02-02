@@ -81,32 +81,24 @@ function LIRAttackingWithOffHand:update()
                         print("LIR: PlayerAngle " .. player_angle)
 
                         -- TODO this is not precise enough, but it's better than nothing
-                        
-                        -- Zombie North
+
                         if diff_y > 0.5 then
                             print("Zombie is north to the player")
                             can_be_added = player_angle < 0 and player_angle > -178
-                        end
-                        -- Zombie south
-                        if diff_y < -0.5 then
+                        elseif diff_y < -0.5 then
                             print("Zombie is south")
                             can_be_added = player_angle > 0 and player_angle < 178
-                        end
-
-
-                        -- Zombie east
-
-                        if diff_x < -0.5 then
+                        elseif diff_x < -0.5 then
                             print("Zombie is east")
                             can_be_added = (player_angle < 75 and player_angle > 0) or (player_angle > -75 and player_angle < 0)
-                        end
-
-                        -- Zombie west
-                        if diff_x > 0.5 then
+                        elseif diff_x > 0.5 then
                             print("Zombie is west")
                             can_be_added = (player_angle > 90 and player_angle < 179) or (player_angle < - 90 and player_angle > -179)
+                        elseif diff_x < 0.2 and diff_y < 0.2 then
+                        -- Special case, zombie is really really near the player (probably downed)
+                            can_be_added = true
+                            self:setActionAnim("OffHand_Floor")
                         end
-
 
 
 
