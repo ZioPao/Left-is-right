@@ -17,7 +17,7 @@ function LIRAttackingWithOffHand:SearchEnemy()
             -- For some reason in the spotted list we've got the player too
             if enemy ~= self.character and not enemy:isDead() then
                 local calculated_distance = enemy:DistTo(self.character)
-                print("LIR: Distance " .. calculated_distance)
+                --print("LIR: Distance " .. calculated_distance)
                 if calculated_distance <= self.range then
 
                     local enemy_x = enemy:getX()
@@ -29,26 +29,26 @@ function LIRAttackingWithOffHand:SearchEnemy()
                     local diff_x = player_x - enemy_x
                     local diff_y = player_y - enemy_y
     
-                    print("LIR: Diff x " .. diff_x)
-                    print("LIR: Diff y " .. diff_y)
+                    --print("LIR: Diff x " .. diff_x)
+                    --print("LIR: Diff y " .. diff_y)
     
                     local player_angle = self.character:getDirectionAngle()
-                    print("LIR: PlayerAngle " .. player_angle)
+                    --print("LIR: PlayerAngle " .. player_angle)
 
                     -- TODO this is not precise enough, but it's better than nothing
                     -- TODO we should do these checks before starting the animation
 
                     if diff_y > 0.5 then
-                        print("Zombie is north to the player")
+                        --print("Zombie is north to the player")
                         can_be_added = player_angle < 0 and player_angle > -178
                     elseif diff_y < -0.5 then
-                        print("Zombie is south")
+                        --print("Zombie is south")
                         can_be_added = player_angle > 0 and player_angle < 178
                     elseif diff_x < -0.5 then
-                        print("Zombie is east")
+                        --print("Zombie is east")
                         can_be_added = (player_angle < 75 and player_angle > 0) or (player_angle > -75 and player_angle < 0)
                     elseif diff_x > 0.5 then
-                        print("Zombie is west")
+                        --print("Zombie is west")
                         can_be_added = (player_angle > 90 and player_angle < 179) or (player_angle < - 90 and player_angle > -179)
                     elseif diff_x < 0.35 and diff_y < 0.35 then
                         -- Special case, zombie is really really near the player (probably downed)
@@ -65,12 +65,12 @@ function LIRAttackingWithOffHand:SearchEnemy()
                     can_be_added = false        -- reset
                     should_use_floor_anim = false
 
-                    print("____________________________________________")
+                    --print("____________________________________________")
                 end
                 
             end
         end
-        print("LIR: Finished checking enemies")
+        --print("LIR: Finished checking enemies")
         local found_minimum = 1000000       -- high value to begin with
         local found_enemy_id = nil
         for i = 1, #dist_table do
@@ -89,8 +89,8 @@ function LIRAttackingWithOffHand:SearchEnemy()
 
             return is_enemy_on_floor
         end
-    else
-        print("LIR: No enemies around")
+    --else
+        --print("LIR: No enemies around")
     end
     return nil
 end
@@ -210,9 +210,9 @@ function LIRAttackingWithOffHand:new(character, item, time_override_modifier)
     attackAction.has_attacked = false
     attackAction.enemy_to_attack = nil
 
-    print("_________________________________")
-    print("LIR NEW ATTACK")
-    print(attackAction.range)
+    -- print("_________________________________")
+    -- print("LIR NEW ATTACK")
+    -- print(attackAction.range)
 
 
     --attackAction.hitSound = hitSound;

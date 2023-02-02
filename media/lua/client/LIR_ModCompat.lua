@@ -12,8 +12,9 @@ LIR_ModCompat = {
 
 
 local function TheOnlyCureButBetterSupport()
-    require("TOC_main")
     if getActivatedMods():contains('Amputation2') == false then return end
+    require("TOC_main")
+
     LIR_ModCompat.TheOnlyCureButBetter = true
 
     local player = getPlayer()
