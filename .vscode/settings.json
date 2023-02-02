@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "Events",
+        "ISTimedActionQueue",
+        "getPlayer",
+        "ZombRand",
+        "getGameTime",
+        "ISBaseTimedAction"
+    ]
+}

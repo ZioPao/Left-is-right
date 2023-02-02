@@ -12,11 +12,7 @@ end
 function LIRAttackingWithOffHand:update()
     
     self.current_time = self.current_time + getGameTime():getTimeDelta()
-
-
-    
     --print(self.current_time)
-
     if self.current_time > self.time_to_attack and (not self.has_attacked) then
         
         local enemies = self.character:getSpottedList()
@@ -87,12 +83,6 @@ function LIRAttackingWithOffHand:start()
     end
 
     self:setActionAnim(attackAnim)
-
-
-    -- TODO we should wait inbetween start and perform to perform the actual attack,
-
-  
-
 
 
 

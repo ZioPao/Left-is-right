@@ -6,7 +6,8 @@
 
 -- LIST OF STUFF TO IMPLEMENT
 -- TODO Switchable state (Left to Right, Right to Left)
--- TODO 
+-- TODO Add a way to use some specific objects with the secondary hand
+
 
 
 
@@ -27,25 +28,9 @@ end
 
 
 
--- Switch the visible thing and use the other method to perform attacks
-local function SwitchPrincipalHand(player)
-    print("LIR: Switch hands")
-
-
-    -- Get what hand is the principal now
-
-    -- Switch it (set anims and methods)
-
-    local new_value = not player:getModData().LIR.is_hand_switched
-    player:getModData().LIR.is_hand_switched = new_value
-
-end
-
-
-
 local function OnMouseDown(x, y)
+    -- TODO we can't really "override" the main attack, so it can still cause some issues
     -- stop main attack and replaces it with my method
-    print("LIR: OnMouseDown")
     local player = getPlayer()
     local lir_data = player:getModData().LIR
 
@@ -70,7 +55,8 @@ local function OnKeyboardInput(key)
     -- check if 9 is pressed
     if key == 45 then
 
-        SwitchPrincipalHand(player)
+        local new_value = not player:getModData().LIR.is_hand_switched
+        player:getModData().LIR.is_hand_switched = new_value
 
     end
 
