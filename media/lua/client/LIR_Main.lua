@@ -68,7 +68,7 @@ local function OnKeyboardInput(key)
     local lir_data = player:getModData().LIR
 
     -- check if 9 is pressed
-    if key == 10 then
+    if key == 45 then
 
         SwitchPrincipalHand(player)
 
