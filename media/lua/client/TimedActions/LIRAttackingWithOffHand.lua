@@ -4,9 +4,8 @@ LIRAttackingWithOffHand = ISBaseTimedAction:derive("LIRAttackingWithOffHand")
 
 
 function LIRAttackingWithOffHand:SearchEnemy()
-    local enemies = self.character:getSpottedList()
+    local enemies = self.character:getSpottedList()     -- TODO This is not precise enough
 
-    -- removes player from the enemies list
     local dist_table = {}
     local zombie_table = {}
     local anim_table = {}
@@ -15,11 +14,12 @@ function LIRAttackingWithOffHand:SearchEnemy()
     if enemies:size() > 0 then
         for i = 0, enemies:size() - 1 do
             local enemy = enemies:get(i)
+            -- For some reason in the spotted list we've got the player too
             if enemy ~= self.character and not enemy:isDead() then
                 local calculated_distance = enemy:DistTo(self.character)
+                print("LIR: Distance " .. calculated_distance)
                 if calculated_distance <= self.range then
 
-                    print("LIR: Distance " .. calculated_distance)
                     local enemy_x = enemy:getX()
                     local player_x = self.character:getX()
     
@@ -50,7 +50,7 @@ function LIRAttackingWithOffHand:SearchEnemy()
                     elseif diff_x > 0.5 then
                         print("Zombie is west")
                         can_be_added = (player_angle > 90 and player_angle < 179) or (player_angle < - 90 and player_angle > -179)
-                    elseif diff_x < 0.2 and diff_y < 0.2 then
+                    elseif diff_x < 0.35 and diff_y < 0.35 then
                         -- Special case, zombie is really really near the player (probably downed)
                         -- TODO add actual check for the zombie to see if it's downed or not
                         can_be_added = true
@@ -70,7 +70,7 @@ function LIRAttackingWithOffHand:SearchEnemy()
                 
             end
         end
-
+        print("LIR: Finished checking enemies")
         local found_minimum = 1000000       -- high value to begin with
         local found_enemy_id = nil
         for i = 1, #dist_table do
@@ -89,6 +89,8 @@ function LIRAttackingWithOffHand:SearchEnemy()
 
             return is_enemy_on_floor
         end
+    else
+        print("LIR: No enemies around")
     end
     return nil
 end
@@ -124,7 +126,7 @@ function LIRAttackingWithOffHand:isValid()
 end
 
 function LIRAttackingWithOffHand:update()
-    
+    --print(self.current_time)
     self.current_time = self.current_time + getGameTime():getTimeDelta()
     if self.current_time > self.time_to_attack and (not self.has_attacked) then
         if self.enemy_to_attack then
@@ -154,7 +156,7 @@ function LIRAttackingWithOffHand:start()
     local is_enemy_on_the_floor = self:SearchEnemy()
     self:SetAttackAnimations(is_enemy_on_the_floor)
 	local weapon_sound = self.item:getSwingSound()
-    print(weapon_sound)
+    --print(weapon_sound)
     -- Play weapon sound
     self.character:playSound(weapon_sound)      -- TODO why the fuck this does not work?
 
@@ -180,12 +182,12 @@ function LIRAttackingWithOffHand:perform()
     self.character:setAuthorizeShoveStomp(true)
 end
 
-function LIRAttackingWithOffHand:new(character, item)
+function LIRAttackingWithOffHand:new(character, item, time_override_modifier)
 
     
     local attackAction = {}
 
-    local modifier = 0.3        -- TODO Since we're probably missing something for the range calc
+    local modifier = 1       -- TODO Since we're probably missing something for the range calc
 
 
     setmetatable(attackAction, self)
@@ -194,22 +196,23 @@ function LIRAttackingWithOffHand:new(character, item)
     attackAction.character = character
     attackAction.item = item
     attackAction.stopOnWalk = false
-    attackAction.stopOnRun = false
+    attackAction.stopOnRun = true
 	attackAction.stopOnAim = false
 	attackAction.useProgressBar = false
     --local maxTimeCalc = tonumber(time) * tonumber(getGameTime().FPSMultiplier);
-    attackAction.maxTime = 2 * 5     -- TODO should scale like the base game does
+    attackAction.maxTime = 50 - time_override_modifier          -- 15 is good, but it will kinda break if we have both arms
     attackAction.range = item:getMaxRange() + modifier
 
-    print(attackAction.range)
+    --print(attackAction.maxTime)
 
     attackAction.current_time = 0
     attackAction.time_to_attack = 0.2       -- TODO Make it dynamic
     attackAction.has_attacked = false
     attackAction.enemy_to_attack = nil
 
-
-
+    print("_________________________________")
+    print("LIR NEW ATTACK")
+    print(attackAction.range)
 
 
     --attackAction.hitSound = hitSound;

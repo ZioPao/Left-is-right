@@ -15,10 +15,19 @@ local function LIR_AttackWithOffHand(player)
 
     -- Check if off hand has a weapon
     local off_hand_weapon = player:getSecondaryHandItem()
+    local time_modifier = 0
+    
+    if LIR_ModCompat.TheOnlyCureButBetter then
+        time_modifier = LIRGetTimeOverrideForAmputee()
+    end
+
+
+
+
 
     if off_hand_weapon:IsWeapon() then
 
-        ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon))
+        ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon, time_modifier))
     end
 end
 
@@ -31,34 +40,14 @@ local function OnMouseDown(x, y)
     -- stop main attack and replaces it with my method
     local player = getPlayer()
     local lir_data = player:getModData().LIR
+    local principal_hand_weapon = player:getPrimaryHandItem()
+    local off_hand_weapon = player:getSecondaryHandItem()
 
-    if player and player:isAiming() then
-        if lir_data.is_hand_switched then
-            LIR_AttackWithOffHand(player)
-        else
-            print("LIR: Normal attack")
-        end
+    if player and player:isAiming() and off_hand_weapon and not principal_hand_weapon then
+        LIR_AttackWithOffHand(player)
     end
-
 end
 
-
--- Check for keyboard input to switch hands
-local function OnKeyboardInput(key)
-    
-    local player = getPlayer()
-    local lir_data = player:getModData().LIR
-
-    -- check if 9 is pressed
-    if key == 45 and lir_data.can_switch_hand then
-
-        local new_value = not player:getModData().LIR.is_hand_switched
-        player:getModData().LIR.is_hand_switched = new_value
-
-    end
-
-    
-end
 
 
 local function InitLIR()
@@ -71,7 +60,6 @@ local function InitLIR()
 
     }
 
-    Events.OnKeyStartPressed.Add(OnKeyboardInput)
     Events.OnMouseDown.Add(OnMouseDown)
 end
 

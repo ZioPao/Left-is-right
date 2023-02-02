@@ -1,8 +1,8 @@
 name=Left Is Right
 poster=generic.png
-description=Test
+description=Make your off hand actually useful
 id=LeftIsRight
 icon=icon.png
-url=xx
+url=https://github.com/ZioPao/Left-is-right
 modversion=0.0.1
 pzversion=41.65
