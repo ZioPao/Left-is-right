@@ -3,6 +3,20 @@ require "TimedActions/ISBaseTimedAction"
 LIRAttackingWithOffHand = ISBaseTimedAction:derive("LIRAttackingWithOffHand")
 
 
+function LIRAttackingWithOffHand:CalculatePlayerCombatSpeed()
+    -- Thanks IS for hiding this function so I have to make a shitty new one
+
+    -- check damage
+
+    -- check pain level
+
+    -- 
+
+    return 2
+
+end
+
+
 function LIRAttackingWithOffHand:SearchEnemy()
     local enemies = self.character:getSpottedList()     -- TODO This is not precise enough
 
@@ -97,22 +111,39 @@ end
 
 function LIRAttackingWithOffHand:SetAttackAnimations(is_enemy_on_floor)
 
+    local attack_anim
+
     if is_enemy_on_floor == nil or is_enemy_on_floor == false then
 
         local attackType = self.item:getSubCategory()
-        local attackAnim = "OffHand_Swing"
+        attack_anim = "OffHand_Swing"
     
         if attackType == "Stab" then
     
-            attackAnim = "OffHand_Stab"
+            attack_anim = "OffHand_Stab"
     
         end
-    
-        self:setActionAnim(attackAnim)
-    
+        
     elseif is_enemy_on_floor == true then
-        self:setActionAnim("OffHand_Floor")
+        attack_anim = "OffHand_Floor"
     end
+
+    local animation_speed = self.maxTime / (self.maxTime * 0.9)
+
+    if animation_speed > 1.5 or animation_speed < 0.5 then
+        animation_speed = self.maxTime/30
+    end
+
+    print("LIR: Action time " .. self.maxTime)
+    print("LIR: Animation speed " .. animation_speed)
+
+    -- a lower value means faster
+    self.character:setVariable(attack_anim .. "_Speed", animation_speed)
+    
+    self:setActionAnim(attack_anim)
+
+
+
 end
 
 
@@ -173,6 +204,7 @@ end
 
 function LIRAttackingWithOffHand:stop()
     -- TODO we shouldn't be able to stop it, but I've got no clue for now how to do that
+    print("LIR: Stopping")
     self:perform()
 
 end
@@ -200,19 +232,27 @@ function LIRAttackingWithOffHand:new(character, item, time_override_modifier)
 	attackAction.stopOnAim = false
 	attackAction.useProgressBar = false
     --local maxTimeCalc = tonumber(time) * tonumber(getGameTime().FPSMultiplier);
-    attackAction.maxTime = 50 - time_override_modifier          -- 15 is good, but it will kinda break if we have both arms
+    attackAction.maxTime = 20
     attackAction.range = item:getMaxRange() + modifier
 
     --print(attackAction.maxTime)
 
     attackAction.current_time = 0
-    attackAction.time_to_attack = 0.2       -- TODO Make it dynamic
+    attackAction.time_to_attack = 0.3       -- TODO Make it dynamic
     attackAction.has_attacked = false
     attackAction.enemy_to_attack = nil
 
     -- print("_________________________________")
     -- print("LIR NEW ATTACK")
     -- print(attackAction.range)
+
+    -- TODO this is how they manage animation speed
+    -- function ISAttachItemHotbar:start()
+    --     self.character:setVariable("AttachItemSpeed", self.animSpeed)
+    --     self:setActionAnim("AttachItem")
+    --     self:setOverrideHandModels(self.item, nil)
+    --     self.character:reportEvent("EventAttachItem");
+    -- end
 
 
     --attackAction.hitSound = hitSound;

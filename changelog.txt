@@ -1,0 +1,7 @@
+0.0.2
+- Cleaning code
+- Fix to compat with The Only Cure but better
+
+
+0.0.1
+- First release

@@ -5,7 +5,7 @@
     <m_Looped>false</m_Looped>
 	<m_SyncTrackingEnabled>false</m_SyncTrackingEnabled>
 	<m_EarlyBlendOut>false</m_EarlyBlendOut>
-	<m_SpeedScale>combatSpeed</m_SpeedScale>
+	<m_SpeedScale>OffHand_Swing_Speed</m_SpeedScale>
 	<m_BlendTime>0.15</m_BlendTime>
 	<m_BlendOutTime>0.25</m_BlendOutTime>
 	<m_Scalar></m_Scalar>
