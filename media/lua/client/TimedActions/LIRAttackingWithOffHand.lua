@@ -120,8 +120,8 @@ function LIRAttackingWithOffHand:SetAttackAnimations(is_enemy_on_floor)
         animation_speed = self.maxTime/30
     end
 
-    print("LIR: Action time " .. self.maxTime)
-    print("LIR: Animation speed " .. animation_speed)
+    --print("LIR: Action time " .. self.maxTime)
+    --print("LIR: Animation speed " .. animation_speed)
 
     -- a lower value means faster
     self.character:setVariable(attack_anim .. "_Speed", animation_speed)
@@ -168,6 +168,8 @@ function LIRAttackingWithOffHand:start()
 
     self.character:setAuthorizeShoveStomp(false)
 
+    -- Force set again self.maxTime
+    self.maxTime = 15
 
     -- Set enemy and animations
     local is_enemy_on_the_floor = self:SearchEnemy()
@@ -198,6 +200,8 @@ end
 function LIRAttackingWithOffHand:perform()
 
     self.character:setAuthorizeShoveStomp(true)
+    self.character:getModData().LIR.is_attacking = false        -- For compat reason with TOC   
+
 end
 
 function LIRAttackingWithOffHand:new(character, item)
@@ -217,7 +221,7 @@ function LIRAttackingWithOffHand:new(character, item)
     attackAction.stopOnRun = true
 	attackAction.stopOnAim = false
 	attackAction.useProgressBar = false
-    attackAction.maxTime = 20
+    attackAction.maxTime = 35          -- TODO need to be dynamic to prevent problems, higher when high stamina, lower when lower stamina
     attackAction.range = item:getMaxRange() + modifier
 
 

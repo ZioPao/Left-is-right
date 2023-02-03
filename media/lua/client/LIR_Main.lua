@@ -16,7 +16,8 @@ local function LIR_AttackWithOffHand(player)
     -- Check if off hand has a weapon
     local off_hand_weapon = player:getSecondaryHandItem()
     if off_hand_weapon:IsWeapon() then
-
+        local lir_data = player:getModData().LIR
+        lir_data.is_attacking = true
         ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon))
     end
 end
@@ -44,9 +45,7 @@ local function InitLIR()
     local mod_data = player:getModData()
 
     mod_data.LIR = {
-        is_hand_switched = false,
-        can_switch_hand = true,
-
+        is_attacking = false,
     }
 
     Events.OnMouseDown.Add(OnMouseDown)
