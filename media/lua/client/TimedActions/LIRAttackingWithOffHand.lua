@@ -200,7 +200,7 @@ function LIRAttackingWithOffHand:perform()
     self.character:setAuthorizeShoveStomp(true)
 end
 
-function LIRAttackingWithOffHand:new(character, item, time_override_modifier)
+function LIRAttackingWithOffHand:new(character, item)
 
     
     local attackAction = {}

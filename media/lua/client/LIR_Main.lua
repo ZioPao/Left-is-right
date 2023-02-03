@@ -15,19 +15,9 @@ local function LIR_AttackWithOffHand(player)
 
     -- Check if off hand has a weapon
     local off_hand_weapon = player:getSecondaryHandItem()
-    local time_modifier = 0
-    
-    if LIR_ModCompat.TheOnlyCureButBetter then
-        time_modifier = LIRGetTimeOverrideForAmputee()
-    end
-
-
-
-
-
     if off_hand_weapon:IsWeapon() then
 
-        ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon, time_modifier))
+        ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon))
     end
 end
 
@@ -39,7 +29,6 @@ local function OnMouseDown(x, y)
     -- TODO we can't really "override" the main attack, so it can still cause some issues
     -- stop main attack and replaces it with my method
     local player = getPlayer()
-    local lir_data = player:getModData().LIR
     local principal_hand_weapon = player:getPrimaryHandItem()
     local off_hand_weapon = player:getSecondaryHandItem()
 
