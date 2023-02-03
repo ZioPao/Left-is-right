@@ -3,20 +3,6 @@ require "TimedActions/ISBaseTimedAction"
 LIRAttackingWithOffHand = ISBaseTimedAction:derive("LIRAttackingWithOffHand")
 
 
-function LIRAttackingWithOffHand:CalculatePlayerCombatSpeed()
-    -- Thanks IS for hiding this function so I have to make a shitty new one
-
-    -- check damage
-
-    -- check pain level
-
-    -- 
-
-    return 2
-
-end
-
-
 function LIRAttackingWithOffHand:SearchEnemy()
     local enemies = self.character:getSpottedList()     -- TODO This is not precise enough
 
@@ -231,29 +217,14 @@ function LIRAttackingWithOffHand:new(character, item, time_override_modifier)
     attackAction.stopOnRun = true
 	attackAction.stopOnAim = false
 	attackAction.useProgressBar = false
-    --local maxTimeCalc = tonumber(time) * tonumber(getGameTime().FPSMultiplier);
     attackAction.maxTime = 20
     attackAction.range = item:getMaxRange() + modifier
 
-    --print(attackAction.maxTime)
 
     attackAction.current_time = 0
     attackAction.time_to_attack = 0.3       -- TODO Make it dynamic
     attackAction.has_attacked = false
     attackAction.enemy_to_attack = nil
-
-    -- print("_________________________________")
-    -- print("LIR NEW ATTACK")
-    -- print(attackAction.range)
-
-    -- TODO this is how they manage animation speed
-    -- function ISAttachItemHotbar:start()
-    --     self.character:setVariable("AttachItemSpeed", self.animSpeed)
-    --     self:setActionAnim("AttachItem")
-    --     self:setOverrideHandModels(self.item, nil)
-    --     self.character:reportEvent("EventAttachItem");
-    -- end
-
 
     --attackAction.hitSound = hitSound;
     
