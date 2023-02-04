@@ -15,7 +15,7 @@ local function LIR_AttackWithOffHand(player)
 
     -- Check if off hand has a weapon
     local off_hand_weapon = player:getSecondaryHandItem()
-    if off_hand_weapon:IsWeapon() then
+    if off_hand_weapon:IsWeapon() and off_hand_weapon:isAimedFirearm() == false then
         local lir_data = player:getModData().LIR
         lir_data.is_attacking = true
         ISTimedActionQueue.add(LIRAttackingWithOffHand:new(player, off_hand_weapon))

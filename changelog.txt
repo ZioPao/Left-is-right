@@ -1,3 +1,12 @@
+0.0.5
+- Hotfix, guns won't work on left hand (for now)
+
+
+0.0.4
+- Added some stuff to let intercompatibility between mods easier
+- Some changes to animation settings
+- Better support with The Only Cure but better
+
 0.0.3
 - Better handling of timed action (now it scales more similiarly to how the vanilla game works)
 - Cleaning code
